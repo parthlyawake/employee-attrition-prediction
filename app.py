@@ -7,6 +7,19 @@ Original file is located at
     https://colab.research.google.com/drive/12YHG62azQ9FYB_0bvBHdYl2A5gHvLqMO
 """
 
+USER_INPUT_FEATURES = [
+    "Age",
+    "MonthlyIncome",
+    "DistanceFromHome",
+    "TotalWorkingYears",
+    "YearsAtCompany",
+    "YearsSinceLastPromotion",
+    "JobSatisfaction",
+    "EnvironmentSatisfaction",
+    "JobInvolvement",
+    "OverTime_Yes"
+]
+
 # 1. Basic App Skeleton
 
 import streamlit as st
@@ -92,7 +105,9 @@ def user_input_features():
         "OverTime_Yes": 1 if OverTime == "Yes" else 0
     }
 
-    return pd.DataFrame([data])
+    input_df = pd.DataFrame([data])
+    input_df["_user_provided"] = True
+    return input_df
 
 # 6. Aligning Input with Training Features
 
@@ -108,6 +123,9 @@ input_df = input_df[feature_columns]
 
 # Scale input
 input_scaled = scaler.transform(input_df)
+
+# Identify features that user actually provided
+user_features = [col for col in input_df.columns if col in data.keys()]
 
 # Calculate feature contributions
 contributions = input_scaled[0] * coefficients
@@ -142,13 +160,23 @@ if st.button("Predict Attrition Risk"):
     # Decide explanation direction based on risk
     if prob < 0.3:
         explanation_type = "reduces"
-        filtered_df = contrib_df[contrib_df["Contribution"] < 0]
+        filtered_df = contrib_df[
+            (contrib_df["Contribution"] < 0) &
+            (contrib_df["Feature"].isin(USER_INPUT_FEATURES))
+        ]
+
     elif prob > 0.6:
         explanation_type = "increases"
-        filtered_df = contrib_df[contrib_df["Contribution"] > 0]
+        filtered_df = contrib_df[
+            (contrib_df["Contribution"] > 0) &
+            (contrib_df["Feature"].isin(USER_INPUT_FEATURES))
+        ]
+
     else:
         explanation_type = "mixed"
-        filtered_df = contrib_df
+        filtered_df = contrib_df[
+            contrib_df["Feature"].isin(USER_INPUT_FEATURES)
+        ]
 
 
     st.divider()
