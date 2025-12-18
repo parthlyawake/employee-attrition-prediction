@@ -85,6 +85,11 @@ def user_input_features():
         "EnvironmentSatisfaction": EnvironmentSatisfaction,
         "JobInvolvement": JobInvolvement,
         "OverTime_Yes": 1 if OverTime == "Yes" else 0
+        "WorkLifeBalance": "Work–Life Balance",
+        "RelationshipSatisfaction": "Relationship Satisfaction",
+        "PerformanceRating": "Performance Rating",
+        "BusinessTravel_Travel_Rarely": "Rare Business Travel",
+        "BusinessTravel_Travel_Frequently": "Frequent Business Travel"
     }
 
     return pd.DataFrame([data])
@@ -134,18 +139,27 @@ if st.button("Predict Attrition Risk"):
     else:
         st.success(f"Low Attrition Risk (Probability: {prob:.2f})")
 
-        st.divider()
+    # Decide explanation direction based on risk
+    if prob < 0.3:
+        explanation_type = "reduces"
+        filtered_df = contrib_df[contrib_df["Contribution"] < 0]
+    elif prob > 0.6:
+        explanation_type = "increases"
+        filtered_df = contrib_df[contrib_df["Contribution"] > 0]
+    else:
+        explanation_type = "mixed"
+        filtered_df = contrib_df
+
+
+    st.divider()
     st.subheader("Why this prediction?")
 
-    top_reasons = contrib_df.head(5)
+    top_reasons = filtered_df.head(5)
 
     for _, row in top_reasons.iterrows():
-        direction = "increases" if row["Contribution"] > 0 else "reduces"
         feature_name = feature_name_map.get(row["Feature"], row["Feature"])
+        st.write(f"• **{feature_name}** {explanation_type} attrition risk")
 
-        st.write(
-            f"• **{feature_name}** {direction} attrition risk"
-        )
 
     st.caption(
         "Prediction is based on historical employee data and should be used as a "
