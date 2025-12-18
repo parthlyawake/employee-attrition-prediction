@@ -9,7 +9,7 @@ Original file is located at
 # 1. Installing Streamlit
 """
 
-!pip install streamlit
+# !pip install streamlit (NOT REQUIRED)
 
 """# 2. Basic App Skeleton"""
 
