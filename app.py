@@ -39,7 +39,12 @@ feature_name_map = {
     "DistanceFromHome": "Distance From Home",
     "EnvironmentSatisfaction": "Work Environment Satisfaction",
     "JobInvolvement": "Job Involvement",
-    "Age": "Age"
+    "Age": "Age",
+    "WorkLifeBalance": "Work–Life Balance",
+    "RelationshipSatisfaction": "Relationship Satisfaction",
+    "PerformanceRating": "Performance Rating",
+    "BusinessTravel_Travel_Rarely": "Rare Business Travel",
+    "BusinessTravel_Travel_Frequently": "Frequent Business Travel"
 }
 
 
@@ -85,11 +90,6 @@ def user_input_features():
         "EnvironmentSatisfaction": EnvironmentSatisfaction,
         "JobInvolvement": JobInvolvement,
         "OverTime_Yes": 1 if OverTime == "Yes" else 0
-        "WorkLifeBalance": "Work–Life Balance",
-        "RelationshipSatisfaction": "Relationship Satisfaction",
-        "PerformanceRating": "Performance Rating",
-        "BusinessTravel_Travel_Rarely": "Rare Business Travel",
-        "BusinessTravel_Travel_Frequently": "Frequent Business Travel"
     }
 
     return pd.DataFrame([data])
