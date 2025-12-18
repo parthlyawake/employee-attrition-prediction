@@ -9,16 +9,14 @@ Original file is located at
 # 1. Installing Streamlit
 """
 
-# !pip install streamlit (NOT REQUIRED)
-
-"""# 2. Basic App Skeleton"""
+# 2. Basic App Skeleton
 
 import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
 
-"""# 3. Loading the Artifacts"""
+# 3. Loading the Artifacts
 
 with open("attrition_model.pkl", "rb") as f:
     model = pickle.load(f)
@@ -29,7 +27,7 @@ with open("scaler.pkl", "rb") as f:
 with open("feature_columns.pkl", "rb") as f:
     feature_columns = pickle.load(f)
 
-"""# 4. App Title & Description"""
+# 4. App Title & Description
 
 st.set_page_config(page_title="Employee Attrition Predictor", layout="centered")
 
@@ -44,7 +42,7 @@ st.write(
 
 st.divider()
 
-"""# 5. User Input Form"""
+# 5. User Input Form
 
 st.subheader("Employee Details")
 
@@ -75,7 +73,7 @@ def user_input_features():
 
     return pd.DataFrame([data])
 
-"""# 6. Aligning Input with Training Features"""
+# 6. Aligning Input with Training Features
 
 input_df = user_input_features()
 
@@ -90,7 +88,7 @@ input_df = input_df[feature_columns]
 # Scale input
 input_scaled = scaler.transform(input_df)
 
-"""# 7. Prediction & Output"""
+# 7. Prediction & Output
 
 st.divider()
 
