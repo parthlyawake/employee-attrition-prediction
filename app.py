@@ -34,12 +34,19 @@ with open("feature_columns.pkl", "rb") as f:
 st.set_page_config(page_title="Employee Attrition Predictor", layout="centered")
 
 st.title("Employee Attrition Prediction App")
+
 st.write(
-    "This app predicts the probability of an employee leaving the company "
-    "based on job, satisfaction, and work-related factors."
+    "This application predicts the **probability of an employee leaving the company** "
+    "based on job characteristics, satisfaction levels, and work-related factors. "
+    "The model can help HR teams identify high-risk employees early and take "
+    "proactive retention measures."
 )
 
+st.divider()
+
 """# 5. User Input Form"""
+
+st.subheader("Employee Details")
 
 def user_input_features():
     Age = st.slider("Age", 18, 60, 30)
@@ -85,6 +92,10 @@ input_scaled = scaler.transform(input_df)
 
 """# 7. Prediction & Output"""
 
+st.divider()
+
+st.subheader("Prediction Result")
+
 if st.button("Predict Attrition Risk"):
     prob = model.predict_proba(input_scaled)[0][1]
 
@@ -97,3 +108,7 @@ if st.button("Predict Attrition Risk"):
     else:
         st.success(f"Low Attrition Risk (Probability: {prob:.2f})")
 
+     st.caption(
+        "Prediction is based on historical employee data and should be used as a "
+        "decision-support tool, not as the sole basis for HR decisions."
+    )
