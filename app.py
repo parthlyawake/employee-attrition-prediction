@@ -25,8 +25,23 @@ with open("scaler.pkl", "rb") as f:
 with open("feature_columns.pkl", "rb") as f:
     feature_columns = pickle.load(f)
 
-# 3. Getting model coefficients
+# 3. Getting model coefficients and Renaming Feature Names for Explanation
 coefficients = model.coef_[0]
+
+# Renaming feature names for explanations
+feature_name_map = {
+    "OverTime_Yes": "Working Overtime",
+    "YearsAtCompany": "Years at Company",
+    "JobSatisfaction": "Job Satisfaction",
+    "MonthlyIncome": "Monthly Income",
+    "YearsSinceLastPromotion": "Years Since Last Promotion",
+    "TotalWorkingYears": "Total Work Experience",
+    "DistanceFromHome": "Distance From Home",
+    "EnvironmentSatisfaction": "Work Environment Satisfaction",
+    "JobInvolvement": "Job Involvement",
+    "Age": "Age"
+}
+
 
 # 4. App Title & Description
 
@@ -126,8 +141,10 @@ if st.button("Predict Attrition Risk"):
 
     for _, row in top_reasons.iterrows():
         direction = "increases" if row["Contribution"] > 0 else "reduces"
+        feature_name = feature_name_map.get(row["Feature"], row["Feature"])
+
         st.write(
-            f"• **{row['Feature']}** {direction} attrition risk"
+            f"• **{feature_name}** {direction} attrition risk"
         )
 
     st.caption(
