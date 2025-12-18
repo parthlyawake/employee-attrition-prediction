@@ -108,7 +108,7 @@ if st.button("Predict Attrition Risk"):
     else:
         st.success(f"Low Attrition Risk (Probability: {prob:.2f})")
 
-     st.caption(
+    st.caption(
         "Prediction is based on historical employee data and should be used as a "
         "decision-support tool, not as the sole basis for HR decisions."
     )
