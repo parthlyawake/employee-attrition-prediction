@@ -124,9 +124,6 @@ input_df = input_df[feature_columns]
 # Scale input
 input_scaled = scaler.transform(input_df)
 
-# Identify features that user actually provided
-user_features = [col for col in input_df.columns if col in data.keys()]
-
 # Calculate feature contributions
 contributions = input_scaled[0] * coefficients
 
