@@ -21,7 +21,7 @@ EDA → Preprocessing → Modeling → Explainability → Deployment.
 - Streamlit
 
 ## Live Demo
-🚀 *Add Streamlit link here after deployment*
+https://employee-attrition-prediction-parth.streamlit.app/
 
 ## How to Run Locally
 ```bash
